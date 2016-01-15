@@ -1,13 +1,17 @@
 module.exports =  (robot) ->
 
   # 雨の強さについては気象庁のWEBサイト参考
-   # http://www.jma.go.jp/jma/kishou/know/yougo_hp/amehyo.html
+  # http://www.jma.go.jp/jma/kishou/know/yougo_hp/amehyo.html
+  # TODO: node-promiseいれる
 
   yahooAppId = "dj0zaiZpPVo2OE0zSkxjb2lzcyZzPWNvbnN1bWVyc2VjcmV0Jng9OWU-"
   location =
     lat: "35.65532"
     lon: "139.69378"
   yahooApiUrl = "http://weather.olp.yahooapis.jp/v1/place?coordinates=#{location.lat},#{location.lon}&appid=#{yahooAppId}&output=json"
+
+  livedoorCityCode = "130010"
+  livedooeApiUrl = "http://weather.livedoor.com/forecast/webservice/json/v1?city=#{livedoorCityCode}"
 
   getWeatherData = () ->
     request = robot.http(yahooApiUrl).get()
@@ -44,6 +48,16 @@ module.exports =  (robot) ->
 
       console.log text
 
+  getTommorowData = () ->
+    request = robot.http(livedooeApiUrl).get()
+
+    request (err, res, body) ->
+      json = JSON.parse(body)
+      tomorrowData = json.forecasts[1]
+      text = "明日の天気は#{tomorrowData.telop}、最低気温は#{tomorrowData.temperature.min.celsius}℃、最高気温は#{tomorrowData.temperature.max.celsius}℃でしょう。"
+      console.log text
+
 
   robot.respond /天気/i, (msg) ->
     getWeatherData()
+    getTommorowData()
