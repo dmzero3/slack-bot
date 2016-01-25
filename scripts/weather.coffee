@@ -28,7 +28,7 @@ module.exports =  (robot) ->
           return
 
         if !rainFall
-          text = "現在雨は降ってません"
+          text = "現在雨は降ってません。"
         else
           if rainFall >= 1
             text = "弱い雨が降ってます。傘は必要ないかもしれないです。"
@@ -67,26 +67,10 @@ module.exports =  (robot) ->
 
         resolve text
 
-
-  # robot.respond /天気/i, (msg) ->
-  #   getWeatherData().then((value) ->
-  #     console.log value
-  #   ,
-  #   (value) ->
-  #     console.log value
-  #   )
-  #   .then(getTommorowData()).then((value) ->
-  #     console.log value
-  #   ,
-  #   (value) ->
-  #     console.log value
-  #   )
-  #
   robot.respond /天気/i, (msg) ->
-    getWeatherData()
-    .then((value) ->
-      console.log value
-    ).then(getTommorowData())
-    .then((value) ->
-      console.log value
+
+    Promise.all([getWeatherData(), getTommorowData()])
+    .then((result) ->
+      text = "#{result[0]}\n#{result[1]}"
+      console.log text
     )
