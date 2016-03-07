@@ -72,5 +72,6 @@ module.exports =  (robot) ->
     Promise.all([getWeatherData(), getTommorowData()])
     .then((result) ->
       text = "#{result[0]}\n#{result[1]}"
+      msg.send text
       console.log text
     )
