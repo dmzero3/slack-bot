@@ -1,8 +1,9 @@
+CronJob = require('cron').CronJob
+
 module.exports =  (robot) ->
 
   # 雨の強さについては気象庁のWEBサイト参考
   # http://www.jma.go.jp/jma/kishou/know/yougo_hp/amehyo.html
-  # TODO: node-promiseいれる
 
   yahooAppId = "dj0zaiZpPVo2OE0zSkxjb2lzcyZzPWNvbnN1bWVyc2VjcmV0Jng9OWU-"
   location =
@@ -67,11 +68,24 @@ module.exports =  (robot) ->
 
         resolve text
 
-  robot.respond /天気/i, (msg) ->
-
+  getRespondText = (callback) ->
     Promise.all([getWeatherData(), getTommorowData()])
     .then((result) ->
       text = "#{result[0]}\n#{result[1]}"
-      msg.send text
-      console.log text
+      callback(text)
     )
+
+  robot.respond /天気/i, (msg) ->
+    getRespondText((text) ->
+      msg.send text
+    )
+
+
+
+
+  new CronJob '0 30 10 * * 1-5', () =>
+    getRespondText((text) ->
+      robot.send {room: "matsuura_bot"} , text
+      # console.log text
+    )
+  , null, true, "Asia/Tokyo"
