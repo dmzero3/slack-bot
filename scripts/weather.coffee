@@ -29,7 +29,7 @@ module.exports =  (robot) ->
           return
 
         if !rainFall
-          text = "現在雨は降ってません。"
+          text = "雨は降ってません。"
         else
           if rainFall >= 1
             text = "弱い雨が降ってます。傘は必要ないかもしれないです。"
@@ -48,7 +48,7 @@ module.exports =  (robot) ->
           else if rainFall >= 80
             text = "猛烈な雨です。傘は全く役に立たないでしょう。"
 
-        resolve text
+        resolve "現在ファーストプレイス周辺は#{text}"
 
   getTommorowData = () ->
     new Promise (resolve, reject) ->
@@ -64,7 +64,7 @@ module.exports =  (robot) ->
 
         json = JSON.parse(body)
         tomorrowData = json.forecasts[1]
-        text = "明日の天気は#{tomorrowData.telop}、最低気温は#{tomorrowData.temperature.min.celsius}℃、最高気温は#{tomorrowData.temperature.max.celsius}℃でしょう。"
+        text = "明日の東京の天気は#{tomorrowData.telop}、最低気温は#{tomorrowData.temperature.min.celsius}℃、最高気温は#{tomorrowData.temperature.max.celsius}℃でしょう。"
 
         resolve text
 
@@ -75,7 +75,7 @@ module.exports =  (robot) ->
       callback(text)
     )
 
-  robot.respond /天気/i, (msg) ->
+  robot.hear /天気教えて/i, (msg) ->
     getRespondText((text) ->
       msg.send text
     )
@@ -83,9 +83,9 @@ module.exports =  (robot) ->
 
 
 
-  new CronJob '0 30 10 * * 1-5', () =>
+  new CronJob '0 0 19 * * 1-5', () =>
     getRespondText((text) ->
-      robot.send {room: "matsuura_bot"} , text
+      robot.send {room: "blog_reblog"} , "定時になりました。\n#{text}"
       # console.log text
     )
   , null, true, "Asia/Tokyo"
