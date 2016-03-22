@@ -9,7 +9,7 @@ module.exports =  (robot) ->
   location =
     lat: "35.65532"
     lon: "139.69378"
-  yahooApiUrl = "http://weather.olp.yahooapis.jp/v1/place?coordinates=#{location.lat},#{location.lon}&appid=#{yahooAppId}&output=json"
+  yahooApiUrl = "http://weather.olp.yahooapis.jp/v1/place?coordinates=#{location.lon},#{location.lat}&appid=#{yahooAppId}&output=json"
 
   livedoorCityCode = "130010"
   livedooeApiUrl = "http://weather.livedoor.com/forecast/webservice/json/v1?city=#{livedoorCityCode}"
