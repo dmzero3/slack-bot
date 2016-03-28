@@ -31,32 +31,24 @@ module.exports =  (robot) ->
         if !rainFall
           text = "雨は降ってません。"
         else
-          if rainFall > 0
+          if rainFall > 0 and rainFall < 1
             text = "霧雨です。傘は必要ないかもしれないです。"
-
-            if rainFall >= 80
-              text = "猛烈な雨です。傘は全く役に立たないでしょう。"
-            else if rainFall >= 50
-              text = "非常に激しい雨が降ってます。傘は全く役に立たないでしょう。"
-            else if rainFall >= 30
-              text = "激しい雨が降ってます。傘をさしていても濡れるでしょう。"
-            else if rainFall >= 20
-              text = "強い雨が降ってます。傘をさしていても濡れるでしょう。"
-            else if rainFall >= 10
-              text = "やや強い雨ですが降ってます。地面からの跳ね返りで足元がぬれるかもしれないです。"
-            else if rainFall >= 5
-              text = "雨が降ってます。傘は必要です。"
-            else if rainFall >= 3
-              text = "弱い雨が降ってます。傘は必要だと思われます。"
-             else if rainFall >= 1
-              text = "弱い雨が降ってます。念のため傘はあったほうがよいと思います。"
-
-
-
-
-
-
-
+          else if rainFall >= 1 and rainFall < 3
+            text = "弱い雨が降ってます。念のため傘はあったほうがよいと思います。"
+          else if rainFall >= 3 and rainFall < 5
+            text = "弱い雨が降ってます。傘は必要だと思われます。"
+          else if rainFall >= 5 and rainFall < 10
+            text = "雨が降ってます。傘は必要です。"
+          else if rainFall >= 10 and rainFall < 20
+            text = "やや強い雨ですが降ってます。地面からの跳ね返りで足元がぬれるかもしれないです。"
+          else if rainFall >= 20 and rainFall < 30
+            text = "強い雨が降ってます。傘をさしていても濡れるでしょう。"
+          else if rainFall >= 30 and rainFall < 50
+            text = "激しい雨が降ってます。傘をさしていても濡れるでしょう。"
+          else if rainFall >= 50 and rainFall < 80
+            text = "非常に激しい雨が降ってます。傘は全く役に立たないでしょう。"
+          else if rainFall >= 80
+            text = "猛烈な雨です。傘は全く役に立たないでしょう。"
 
         console.log rainFall
         resolve "現在ファーストプレイス周辺は#{text}"
