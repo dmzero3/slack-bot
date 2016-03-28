@@ -31,8 +31,10 @@ module.exports =  (robot) ->
         if !rainFall
           text = "雨は降ってません。"
         else
-          if rainFall >= 1
-            text = "弱い雨が降ってます。傘は必要ないかもしれないです。"
+          if rainFall > 0
+            text = "霧雨です。傘は必要ないかもしれないです。"
+          else if rainFall >= 1
+            text = "弱い雨が降ってます。念のため傘はあったほうがよいと思います。"
           else if rainFall >= 3
             text = "弱い雨が降ってます。傘は必要だと思われます。"
           else if rainFall >= 5
@@ -48,6 +50,7 @@ module.exports =  (robot) ->
           else if rainFall >= 80
             text = "猛烈な雨です。傘は全く役に立たないでしょう。"
 
+        console.log rainFall
         resolve "現在ファーストプレイス周辺は#{text}"
 
   getTommorowData = () ->
